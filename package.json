@@ -1,0 +1,15 @@
+{
+  "name": "access_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "accessHandler.server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-adodb": "^4.0.5",
+    "node-odbc": "^0.2.10"
+  }
+}
