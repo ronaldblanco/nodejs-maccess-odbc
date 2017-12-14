@@ -39,6 +39,23 @@ module.exports = {
 	},
 	
   /**
+   * Execute a Query
+   *
+   * @param {string} query = 'SELECT * FROM Users'
+   */
+  exeQuery: function(query){
+    this.connection
+    .query(query)
+    .then(data => {
+      console.log(JSON.stringify(data, null, 2));
+	  return data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+	
+  /**
    * Insert Row
    *
    * @param {string} table
@@ -84,13 +101,37 @@ module.exports = {
   /**
    * Select All Rows
    *
-    * @param {string} table
+   * @param {string} table
    */
   selectAll: function(table){
     this.connection
     .query('SELECT * FROM ' + table)
     .then(data => {
       console.log(JSON.stringify(data, null, 2));
+	  return data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+  
+  /**
+   * Select Only Columns
+   *
+    * @param {string} table
+	* @param {array} selectCols = ['UserName', 'UserSex']
+   */
+  selectOnly: function(table, selectCols){
+	var selectData = '';
+	selectCols.map(function(data, index){
+		if(index < selectCols.length - 1) selectData = selectData + data + ', ';
+		else selectData = selectData + data;
+	})
+    this.connection
+    .query('SELECT ' + selectData + ' FROM ' + table)
+    .then(data => {
+      console.log(JSON.stringify(data, null, 2));
+	  return data;
     })
     .catch(error => {
       console.log(error);
@@ -114,6 +155,37 @@ module.exports = {
     .query(query)
     .then(data => {
       console.log(JSON.stringify(data, null, 2));
+	  return data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+  
+  /**
+   * Select Only Rows Where
+   *
+   * @param {string} table
+   * @param {object} where = {name:'UserName', value:'Newton'}
+   * @param {array} selectCols = ['UserName', 'UserSex']
+   */
+  selectOnlyWhere: function(table, where, selectCols){
+    const NUM_REGEX = /^[0-9]/i;
+    const DATE_REGEX = /^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}/i;
+	var selectData = '';
+	selectCols.map(function(data, index){
+		if(index < selectCols.length - 1) selectData = selectData + data + ', ';
+		else selectData = selectData + data;
+	})
+    var query = '';
+    if (DATE_REGEX.test(where.value) === true) query = 'SELECT ' + selectData + ' FROM ' + table + ' WHERE (((' + table + '.' + where.name + ')=#' + where.value + '#))';	  
+    else if (NUM_REGEX.test(where.value) === true) query = 'SELECT ' + selectData + ' FROM ' + table + ' WHERE (((' + table + '.' + where.name + ')=' + where.value + '))';
+    else query = 'SELECT ' + selectData + ' FROM ' + table + ' WHERE (((' + table + '.' +where.name + ')="' + where.value + '"))';
+    this.connection
+    .query(query)
+    .then(data => {
+      console.log(JSON.stringify(data, null, 2));
+	  return data;
     })
     .catch(error => {
       console.log(error);
@@ -131,6 +203,7 @@ module.exports = {
     .query('DELETE * FROM ' + table)
     .then(data => {
       console.log(JSON.stringify(data, null, 2));
+	  return data;
     })
     .catch(error => {
       console.log(error);
@@ -154,6 +227,7 @@ module.exports = {
     .query(query)
     .then(data => {
       console.log(JSON.stringify(data, null, 2));
+	  return data;
     })
     .catch(error => {
       console.log(error);
@@ -181,6 +255,7 @@ module.exports = {
     .query(query)
     .then(data => {
       console.log(JSON.stringify(data, null, 2));
+	  return data;
     })
     .catch(error => {
       console.log(error);

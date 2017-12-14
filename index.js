@@ -21,5 +21,8 @@ insertData.vars[2].value = 30;
 insertData.vars[3].value = "12/13/17";
 
 maccess.insert(table, insertData);
-
+var selectCuls = ['UserName', 'UserSex'];
 maccess.selectAll(table);
+maccess.selectOnly(table, selectCuls);
+var where = {name:'UserAge', value:25}
+maccess.selectOnlyWhere(table, where, selectCuls);
